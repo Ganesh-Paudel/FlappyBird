@@ -27,4 +27,12 @@
       <Filter>Resource Files</Filter>
     </Font>
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="jumpingUp.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="jumpingUpp.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+  </ItemGroup>
 </Project>

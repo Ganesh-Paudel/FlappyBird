@@ -11,7 +11,7 @@
 #define BIRDSIZE 30
 #define PIPE_WIDTH 100
 #define PIPE_HEIGHT 400
-#define COLOR_BACKGROUND sf::Color(0, 0, 0)
+#define COLOR_BACKGROUND sf::Color(255, 255, 255)
 #define GRAVITY 1
 #define JUMP -15
 
@@ -34,6 +34,8 @@ struct Pipe
 };
 
 //bird
+sf::Texture birdImage1;
+sf::Texture birdImage2;
 sf::RectangleShape bird(sf::Vector2f(BIRDSIZE, BIRDSIZE));
 
 //storing the pipes
@@ -102,11 +104,22 @@ void updatePipes() {
     removePipes();
 }
 
+void loadImages() {
+	if (!birdImage1.loadFromFile("jumpingUpp.png")) {
+		std::cout << "Error loading bird image" << std::endl;
+	}
+	if (!birdImage2.loadFromFile("jumpingUp.png")) {
+		std::cout << "Error loading bird image" << std::endl;
+	}
+}
+
 
 
 int main()
 {
+    loadImages();
 
+	sf::Sprite birdSprite;
 
     sf::Clock clock;
     sf::RenderWindow window(sf::VideoMode(SCREEN_WIDTH, SCREEN_HEIGHT), "SFML works!");
@@ -114,6 +127,13 @@ int main()
 
     while (window.isOpen())
     {
+        if (speed < 0) {
+			birdSprite.setTexture(birdImage1);
+		}
+        else {
+            birdSprite.setTexture(birdImage2);
+        }
+
         sf::Time elapsed = clock.getElapsedTime();
         if (elapsed.asSeconds() > 1.5 && started) {
             Pipe pipe;
@@ -122,6 +142,8 @@ int main()
             pipes.push_back(pipe);
             clock.restart();
             scores++;
+
+            std::cout << scores << std::endl;
         }
 
         sf::Event event;
@@ -161,9 +183,11 @@ int main()
             updatePipes();
         }
 
-        window.clear();
-        drawBird(window);
+        window.clear(COLOR_BACKGROUND);
+        
         drawPipes(window);
+		birdSprite.setPosition(birdPosX, birdPosY);
+		window.draw(birdSprite);
         window.display();
     }
 
